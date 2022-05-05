@@ -148,5 +148,5 @@ def HilbertScheme(n:int,d:int,field:type=complex):
             rotation_factor = self.point_class(multiplicative_factors)
             self.zset = {zi*rotation_factor for zi in self.zset}
             return
-        
+            
     return HilbertScheme
