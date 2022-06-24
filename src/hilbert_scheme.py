@@ -60,6 +60,8 @@ class TwoDPartition(DPartition):
         return TwoDPartition(self.my_partition + [new_last])
     def n_value(self) -> int:
         return self.my_n
+    def as_list(self) -> List[int]:
+        return self.my_partition
     def __str__(self) -> str:
         return str(self.my_partition)
 
