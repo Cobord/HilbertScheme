@@ -5,7 +5,7 @@ import os
 sys.path.append(os.path.dirname(os.path.realpath(__file__)) + "/../src")
 from hilbert_scheme import AffineDSpacePt,TwoDPartition,HilbertScheme
 
-class TestSum(unittest.TestCase):
+class TestHilbert(unittest.TestCase):
 
     def test_affine(self):
         Aff2 = AffineDSpacePt(2)
