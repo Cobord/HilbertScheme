@@ -67,14 +67,14 @@ class TestHilbert(unittest.TestCase):
         with self.assertRaises(ValueError) as cm:
             cur_partition = next(partitions_of_10)
             _ = Hilb5C2.factory(dpartition=cur_partition)
-            the_exception = cm.exception
-            self.assertEqual(str(e),"Must be a partition of 5", "There should have been an error when trying to use a partition of 10 for Hilb^5 (A^2 (C))")
+        the_exception = cm.exception
+        self.assertEqual(str(the_exception),"Must be a partition of 5", "There should have been an error when trying to use a partition of 10 for Hilb^5 (A^2 (C))")
     
     def test_zero_edge_case(self):
         with self.assertRaises(ValueError) as cm:
             _ = HilbertScheme(0,5)
-            the_exception = cm.exception
-            self.assertEqual(str(e),"n and d must be positive integers")
+        the_exception = cm.exception
+        self.assertEqual(str(the_exception),"n and d must be positive integers","There should have been an error when trying to create the class for Hilb^0 (A^5 (C))")
 
 if __name__ == '__main__':
     unittest.main()
