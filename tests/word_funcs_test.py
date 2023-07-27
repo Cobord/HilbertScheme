@@ -1,10 +1,16 @@
+"""
+test word functions dealing with crystal combinatorics
+"""
+
 import unittest
+import random
+
+# pylint:disable = wrong-import-position,import-error,unused-variable, invalid-name, missing-function-docstring,line-too-long,missing-class-docstring
 
 import sys
 import os
 sys.path.append(os.path.dirname(os.path.realpath(__file__)) + "/../src")
 from word_funcs import is_yamanouchi, crystal_e, crystal_f
-import random
 
 class TestWordFunc(unittest.TestCase):
     def test_highest_weight_repeated(self):
@@ -21,7 +27,7 @@ class TestWordFunc(unittest.TestCase):
         else:
             found_defined_ei = False
             for i in range(max_n):
-                found_defined_ei = (crystal_e(a_word,i) is not None)
+                found_defined_ei = crystal_e(a_word,i) is not None
                 if found_defined_ei:
                     break
             self.assertTrue(found_defined_ei,f"{a_word} is not Yamanouchi so it should have had at least one E_{i} defined on it")
@@ -40,7 +46,7 @@ class TestWordFunc(unittest.TestCase):
             if ei_a_word is not None:
                 fiei_a_word = crystal_f(ei_a_word,i)
                 self.assertEqual(fiei_a_word,a_word,"fi(ei(x)) = x on all x where ei is defined")
-    
+
     def test_round_trip_repeated(self):
         for _ in range(100):
             self.round_trip()
