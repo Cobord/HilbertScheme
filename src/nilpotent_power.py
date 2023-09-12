@@ -5,20 +5,21 @@ powers of nilpotent matrices
 # pylint:disable = invalid-name, unnecessary-lambda, import-error
 
 from functools import reduce
+from typing import cast
 from sympy import Matrix
 import numpy as np
 from hilbert_scheme import TwoDPartition
 
 Nat = int
 
-def jordan_block(block_size : Nat) -> np.array:
+def jordan_block(block_size : Nat) -> np.array: #type:ignore
     """
     make a single nilpotent jordan block of specified size
     """
     return np.array([[1 if i==j+1 else 0 for i in range(0,block_size)]
                      for j in range(0,block_size)])
 
-def partition_to_nilmat(partition : TwoDPartition) -> np.array :
+def partition_to_nilmat(partition : TwoDPartition) -> np.array: #type:ignore
     """
     make a nilpotent Jordan normal form matrix
     """
@@ -26,12 +27,12 @@ def partition_to_nilmat(partition : TwoDPartition) -> np.array :
     blocks = [jordan_block(block_size) for block_size in block_sizes]
     return reduce(lambda block1,block2 : ksum(block1,block2),blocks)
 
-def ksum(block1 : np.array, block2 : np.array) -> np.array:
+def ksum(block1 : np.array, block2 : np.array) -> np.array: #type:ignore
     """
     kronecker sum
     """
-    n1,m1 = block1.shape
-    n2,m2 = block2.shape
+    n1,m1 = block1.shape #type:ignore
+    n2,m2 = block2.shape #type:ignore
     top_right = np.zeros((n1,m2))
     bottom_left = np.zeros((n2,m1))
     left_side = np.vstack((block1,bottom_left))
@@ -45,9 +46,9 @@ def partition_power(partition : TwoDPartition,power : Nat) -> TwoDPartition:
     and the returned value is mu
     """
     n = partition.n_value()
-    nil_mat = partition_to_nilmat(partition)
-    nil_mat = Matrix(nil_mat)
-    nil_mat = nil_mat**power
+    nil_mat_np = partition_to_nilmat(partition)
+    nil_mat = Matrix(nil_mat_np)
+    nil_mat = cast(Matrix,nil_mat**power)
     _, J = nil_mat.jordan_form()
     super_diagonal = [J[i,i+1] for i in range(0,n-1)]
     block_running_sums = [i+1 for i in range(0,n-1) if super_diagonal[i]==0]

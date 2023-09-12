@@ -5,7 +5,7 @@ test word functions dealing with crystal combinatorics
 import unittest
 import random
 
-# pylint:disable = wrong-import-position,import-error,unused-variable, invalid-name, missing-function-docstring,line-too-long,missing-class-docstring
+# pylint:disable = wrong-import-position,import-error,invalid-name,missing-function-docstring,missing-class-docstring
 
 import sys
 import os
@@ -23,14 +23,18 @@ class TestWordFunc(unittest.TestCase):
         if is_yamanouchi(a_word):
             for i in range(max_n):
                 ei_a_word = crystal_e(a_word,i)
-                self.assertEqual(ei_a_word,None, f"{a_word} is Yamanouchi so it should have been highest weight and E_{i} undefined on it, but got {ei_a_word} instead")
+                self.assertEqual(ei_a_word,None,
+                                 f"{a_word} is Yamanouchi so it should have been highest weight"+\
+                                 "and E_{i} undefined on it, but got {ei_a_word} instead")
         else:
             found_defined_ei = False
             for i in range(max_n):
                 found_defined_ei = crystal_e(a_word,i) is not None
                 if found_defined_ei:
                     break
-            self.assertTrue(found_defined_ei,f"{a_word} is not Yamanouchi so it should have had at least one E_{i} defined on it")
+            self.assertTrue(found_defined_ei,
+                            f"{a_word} is not Yamanouchi so it should have had"+\
+                                "at least one E_i defined on it")
 
     def round_trip(self):
         max_n = 4

@@ -4,7 +4,7 @@ tests of hilbert scheme points
 
 import unittest
 
-# pylint:disable = wrong-import-position,import-error,unused-variable, invalid-name, missing-function-docstring,line-too-long,missing-class-docstring
+# pylint:disable = wrong-import-position,import-error,unused-variable, invalid-name, missing-function-docstring,missing-class-docstring
 
 import sys
 import os
@@ -29,7 +29,10 @@ class TestHilbert(unittest.TestCase):
         with self.assertRaises(ValueError) as cm:
             _ = z1 + w2
             the_exception = cm.exception
-            self.assertEqual(str(the_exception),"Cannot add points in different fields or dimensions", "There should have been an error when trying to add points in different affine spaces")
+            #pylint:disable=line-too-long
+            self.assertEqual(str(the_exception),
+                             "Cannot add points in different fields or dimensions",
+                             "There should have been an error when trying to add points in different affine spaces")
 
     def test_H2C2_set(self):
         Aff2 = make_AffineDSpacePt(2)
@@ -37,9 +40,13 @@ class TestHilbert(unittest.TestCase):
         z2 = Aff2([complex(2,-1),complex(-4,1)])
         Hilb2C2 = make_HilbertScheme(2,2)
         p1 = Hilb2C2.factory(zset = {z1,z2})
-        self.assertEqual(str(p1),"The 2 point(s) (['[(2-1j), (-4+1j)]', '[(3+4j), (5+6j)]']) each in A^2 (complex)")
+        #pylint:disable=line-too-long
+        self.assertEqual(str(p1),
+                         "The 2 point(s) (['[(2-1j), (-4+1j)]', '[(3+4j), (5+6j)]']) each in A^2 (complex)")
         p1.rotate([complex(1,0),complex(0,1)])
-        self.assertEqual(str(p1),"The 2 point(s) (['[(3+4j), (-6+5j)]', '[(2-1j), (-1-4j)]']) each in A^2 (complex)")
+        #pylint:disable=line-too-long
+        self.assertEqual(str(p1),
+                         "The 2 point(s) (['[(3+4j), (-6+5j)]', '[(2-1j), (-1-4j)]']) each in A^2 (complex)")
 
     def test_H2C2_partition(self):
         Hilb2C2 = make_HilbertScheme(2,2)
@@ -53,13 +60,20 @@ class TestHilbert(unittest.TestCase):
         w2 = Aff4([complex(0,0),complex(0,1),complex(0,0),complex(0,0)])
         w2copy = Aff4([complex(0,0),complex(0,1),complex(0,0),complex(0,0)])
         p2 = Hilb2C4.factory(zset = {w1,w2,w2copy})
-        self.assertEqual(p2.torus_fixed,[True,False,True,True],"Rotations of the 1st,3rd,4th coordinates fix this point")
+        self.assertEqual(p2.my_n,2)
+        self.assertEqual(p2.my_d,4)
+        self.assertEqual(p2.my_field,complex)
+        self.assertEqual(p2.torus_fixed,[True,False,True,True],
+                         "Rotations of the 1st,3rd,4th coordinates fix this point")
 
     def test_H1R2_set(self):
         Hilb1R2 = make_HilbertScheme(1,2,float)
         Aff2R = make_AffineDSpacePt(2,float)
         x1 = Aff2R([5.0,6.5])
         p3 = Hilb1R2.factory(zset={x1,x1,x1})
+        self.assertEqual(p3.my_n,1)
+        self.assertEqual(p3.my_d,2)
+        self.assertEqual(p3.my_field,float)
 
     def test_H5C2_partition(self):
         Hilb5C2 = make_HilbertScheme(5,2)
@@ -74,13 +88,19 @@ class TestHilbert(unittest.TestCase):
             cur_partition = next(partitions_of_10)
             _ = Hilb5C2.factory(dpartition=cur_partition)
         the_exception = cm.exception
-        self.assertEqual(str(the_exception),"Must be a partition of 5", "There should have been an error when trying to use a partition of 10 for Hilb^5 (A^2 (C))")
+        #pylint:disable=line-too-long
+        self.assertEqual(str(the_exception),
+                         "Must be a partition of 5",
+                         "There should have been an error when trying to use a partition of 10 for Hilb^5 (A^2 (C))")
 
     def test_zero_edge_case(self):
         with self.assertRaises(ValueError) as cm:
             _ = make_HilbertScheme(0,5)
         the_exception = cm.exception
-        self.assertEqual(str(the_exception),"n (provided : 0) and d (provided : 5) must be positive integers","There should have been an error when trying to create the class for Hilb^0 (A^5 (C))")
+        #pylint:disable=line-too-long
+        self.assertEqual(str(the_exception),
+                         "n (provided : 0) and d (provided : 5) must be positive integers",
+                         "There should have been an error when trying to create the class for Hilb^0 (A^5 (C))")
 
 if __name__ == '__main__':
     unittest.main()

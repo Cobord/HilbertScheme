@@ -24,7 +24,7 @@ def make_AffineDSpacePt(d: int, field: type = complex):
         the aforementioned class
         """
 
-        def __init__(self, pt: List[field]) -> None:
+        def __init__(self, pt: List[field]) -> None: #type:ignore
             """
             provide the coordinates of the point
             """
@@ -347,7 +347,7 @@ def make_HilbertScheme(n: int, d: int, field: type = complex):
             return all(self.torus_fixed)
 
         @abstractmethod
-        def rotate(self, multiplicative_factors: List[my_field]) -> None:
+        def rotate(self, multiplicative_factors: List[my_field]) -> None: #type:ignore
             """
             do the torus action
             """
@@ -415,7 +415,7 @@ def make_HilbertScheme(n: int, d: int, field: type = complex):
         n distinct points in A^d(field)
         """
 
-        def __init__(self, my_zset: Set[AffineDSpacePt]):
+        def __init__(self, my_zset: Set[AffineDSpacePt]): #type:ignore
             """
             given a set of n points in A^d (k)
             get a point in Hilb^n (A^d) (k)
@@ -432,23 +432,23 @@ def make_HilbertScheme(n: int, d: int, field: type = complex):
                 raise ValueError(
                     f"There was a point not in affine {d} space over {expected_field.__name__}")
             self.point_class = expected_class
-            self.zset = set()
+            self.zset : Set[expected_class] = set() #type:ignore
             for pt in my_zset:
-                self.zset.add(pt)
-            if not (len(self.zset) == n):
+                self.zset.add(pt) #type:ignore
+            if not (len(self.zset) == n): #type:ignore
                 raise ValueError(f"Set not of size {n}")
             for i in range(d):
                 # CAUTION the type of field must have __eq__ such that __eq__(x,0) makes sense
-                self.torus_fixed[i] = all({pt.my_pt[i] == 0 for pt in self.zset})
+                self.torus_fixed[i] = all({pt.my_pt[i] == 0 for pt in self.zset}) #type:ignore
 
         def __str__(self) -> str:
             """
             describe this ideal as a point of the corresponding hilbert scheme
             """
-            return " ".join([f"The {n} point(s) ({[str(z) for z in self.zset]})",
+            return " ".join([f"The {n} point(s) ({[str(z) for z in self.zset]})", #type:ignore
                              f"each in {self.point_class.__name__}"])
 
-        def rotate(self, multiplicative_factors: List[field]) -> None:
+        def rotate(self, multiplicative_factors: List[field]) -> None: #type:ignore
             """
             the rotation acts on each of the n points
             """
@@ -459,7 +459,7 @@ def make_HilbertScheme(n: int, d: int, field: type = complex):
             if any((f == 0 for f in multiplicative_factors)):
                 raise ValueError("Multiplicative factors cannot be 0")
             rotation_factor = self.point_class(multiplicative_factors)
-            self.zset = {zi*rotation_factor for zi in self.zset}
+            self.zset = {zi*rotation_factor for zi in self.zset} #type:ignore
 
         def permute(self, my_permutation: List[int]) -> None:
             """
